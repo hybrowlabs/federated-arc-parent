@@ -26,7 +26,7 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/fedration_erp/css/fedration_erp.css"
-# app_include_js = "/assets/fedration_erp/js/fedration_erp.js"
+app_include_js = "/assets/fedration_erp/js/master_list.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/fedration_erp/css/fedration_erp.css"
@@ -148,23 +148,26 @@ app_license = "mit"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"fedration_erp.tasks.all"
-# 	],
-# 	"daily": [
-# 		"fedration_erp.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"fedration_erp.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"fedration_erp.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"fedration_erp.tasks.monthly"
-# 	],
-# }
+ignore_links_on_delete = [
+	"Document Change Request"
+]
+scheduler_events = {
+	# "all": [
+	# 	"fedration_erp.tasks.all"
+	# ],
+	"daily": [
+		"fedration_erp.fedration_erp.background_job.master_doctype_creation"
+	],
+	# "hourly": [
+	# 	"fedration_erp.tasks.hourly"
+	# ],
+	# "weekly": [
+	# 	"fedration_erp.tasks.weekly"
+	# ],
+	# "monthly": [
+	# 	"fedration_erp.tasks.monthly"
+	# ],
+}
 
 # Testing
 # -------
