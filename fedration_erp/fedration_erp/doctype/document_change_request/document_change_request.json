@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2024-11-08 12:41:04.567785",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "ref_doctype",
+  "status",
+  "new_data",
+  "column_break_3",
+  "docname",
+  "data",
+  "erpnext_site",
+  "section_break_4",
+  "table_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "ref_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "DocType",
+   "options": "DocType",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "docname",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Document Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "data",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Data"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "table_html",
+   "fieldtype": "HTML",
+   "label": "Table HTML"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nApproved\nRejected"
+  },
+  {
+   "fieldname": "new_data",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "New Data"
+  },
+  {
+   "fieldname": "erpnext_site",
+   "fieldtype": "Link",
+   "label": "Erpnext Site",
+   "options": "Erpnext Site"
+  }
+ ],
+ "icon": "fa fa-copy",
+ "in_create": 1,
+ "links": [],
+ "modified": "2024-11-11 14:59:09.921758",
+ "modified_by": "Administrator",
+ "module": "Fedration Erp",
+ "name": "Document Change Request",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager"
+  },
+  {
+   "delete": 1,
+   "read": 1,
+   "role": "Administrator"
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "docname",
+ "track_changes": 1
+}

@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:site_name",
+ "creation": "2024-10-30 14:57:05.563124",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "site_name",
+  "status",
+  "column_break_rpdf",
+  "api_key",
+  "api_secret_pass",
+  "section_break_neza",
+  "master_template",
+  "sync_doctypes"
+ ],
+ "fields": [
+  {
+   "fieldname": "site_name",
+   "fieldtype": "Data",
+   "label": "Site URL",
+   "unique": 1
+  },
+  {
+   "fieldname": "section_break_neza",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sync_doctypes",
+   "fieldtype": "Table",
+   "label": "Sync Doctypes",
+   "options": "Master Doctypes"
+  },
+  {
+   "fieldname": "api_key",
+   "fieldtype": "Data",
+   "label": "Api Key"
+  },
+  {
+   "fieldname": "column_break_rpdf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "api_secret_pass",
+   "fieldtype": "Password",
+   "label": "Api Secret"
+  },
+  {
+   "default": "Unconfigured",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Unconfigured\nLive\nDisabled"
+  },
+  {
+   "fieldname": "master_template",
+   "fieldtype": "Link",
+   "label": "Master Template",
+   "options": "Master Template"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-11-05 14:52:06.441808",
+ "modified_by": "Administrator",
+ "module": "Fedration Erp",
+ "name": "Erpnext Site",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Green",
+   "title": "Live"
+  },
+  {
+   "color": "Red",
+   "title": "Disabled"
+  }
+ ]
+}
