@@ -31,7 +31,7 @@
    "fieldname": "site_name",
    "fieldtype": "Link",
    "label": "Site Name",
-   "options": "Erpnext Site",
+   "options": "Federated Site",
    "read_only": 1
   },
   {
@@ -75,7 +75,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-07 11:11:37.359360",
+ "modified": "2024-11-15 18:32:39.970856",
  "modified_by": "Administrator",
  "module": "Fedration Erp",
  "name": "Sync Log",

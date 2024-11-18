@@ -29,7 +29,7 @@ class DocumentChangeRequest(Document):
 	@frappe.whitelist()
 	def approve_reject_change_request(self):
 		if self.status in ["Approved","Rejected"]:
-			site=frappe.get_doc("Erpnext Site",self.erpnext_site)
+			site=frappe.get_doc("Federated Site",self.erpnext_site)
 			url=f'{site.site_name}/api/method/federation_child.api.approve_change_request'
 			api_secret =site.get_password(fieldname="api_secret_pass", raise_exception=False)
 			payload=json.dumps({

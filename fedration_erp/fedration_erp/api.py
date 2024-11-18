@@ -28,7 +28,7 @@ def create_site(site_name,api_key,api_secret):
     """
     Create Site API
     """
-    doc=frappe.new_doc("Erpnext Site")
+    doc=frappe.new_doc("Federated Site")
     doc.site_name=site_name
     doc.api_key=api_key
     doc.api_secret_pass=api_secret
@@ -37,7 +37,7 @@ def create_site(site_name,api_key,api_secret):
 #Get Master List Api
 @frappe.whitelist()
 def get_master_list():
-    master=frappe.get_doc("Master List")
+    master=frappe.get_doc("Site Federation Config")
     master_list= [mas_doc.select_doctype for mas_doc in master.master_doctypes]
     return master_list
 
@@ -52,7 +52,7 @@ def create_master_records(doctype,data,docnames):
 
         records.append(record.as_dict())
     for site in json.loads(data):
-        doc=frappe.get_doc("Erpnext Site",site.get("site"))
+        doc=frappe.get_doc("Federated Site",site.get("site"))
         api_secret =doc.get_password(fieldname="api_secret_pass", raise_exception=False)
 
         url=f'{site.get("site")}/api/method/federation_child.api.create_master_record'

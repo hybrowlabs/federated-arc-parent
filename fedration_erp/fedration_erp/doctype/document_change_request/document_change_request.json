@@ -70,13 +70,13 @@
    "fieldname": "erpnext_site",
    "fieldtype": "Link",
    "label": "Erpnext Site",
-   "options": "Erpnext Site"
+   "options": "Federated Site"
   }
  ],
  "icon": "fa fa-copy",
  "in_create": 1,
  "links": [],
- "modified": "2024-11-11 14:59:09.921758",
+ "modified": "2024-11-15 18:32:40.282165",
  "modified_by": "Administrator",
  "module": "Fedration Erp",
  "name": "Document Change Request",

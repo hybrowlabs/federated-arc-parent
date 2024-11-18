@@ -7,14 +7,14 @@ from frappe.model.document import Document
 import requests
 
 
-class ErpnextSite(Document):
+class FederatedSite(Document):
 	def before_save(self):
 		self.master_doctype_creation()
 
 	#Master list filters
 	@frappe.whitelist()
 	def get_master_list(self):
-		master_list=frappe.db.get_all("Master Doctypes",{"parent":"Master List"},pluck="select_doctype")
+		master_list=frappe.db.get_all("Master Doctypes",{"parent":"Site Federation Config"},pluck="select_doctype")
 		return master_list
 	
 
@@ -51,7 +51,7 @@ class ErpnextSite(Document):
 						if response.json().get("message"):
 							doc=frappe.get_doc(response.json().get("message"))
 							doc.insert()
-							master=frappe.get_doc("Master List")
+							master=frappe.get_doc("Site Federation Config")
 							master.append("master_doctypes",{
 								"select_doctype":doc.name
 

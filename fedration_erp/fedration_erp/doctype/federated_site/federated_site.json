@@ -65,7 +65,7 @@
  "modified": "2024-11-05 14:52:06.441808",
  "modified_by": "Administrator",
  "module": "Fedration Erp",
- "name": "Erpnext Site",
+ "name": "Federated Site",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
