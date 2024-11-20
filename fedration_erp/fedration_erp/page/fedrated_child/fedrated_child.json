@@ -1,0 +1,23 @@
+{
+ "content": null,
+ "creation": "2024-11-18 16:47:33.710937",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2024-11-18 16:47:33.710937",
+ "modified_by": "Administrator",
+ "module": "Fedration Erp",
+ "name": "fedrated-child",
+ "owner": "Administrator",
+ "page_name": "fedrated-child",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Fedrated Child "
+}
