@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestMasterList(FrappeTestCase):
+class TestFederatedSite(FrappeTestCase):
 	pass

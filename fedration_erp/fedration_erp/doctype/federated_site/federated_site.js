@@ -1,7 +1,7 @@
 // Copyright (c) 2024, ajay@mail.hybrowlabs.com and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("Erpnext Site", {
+frappe.ui.form.on("Federated Site", {
     refresh(frm){
         frappe.call({
             method:"get_master_list",

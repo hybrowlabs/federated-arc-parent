@@ -14,7 +14,7 @@ class SyncLog(Document):
 			doc=frappe.get_doc(rec.doctype_name,rec.record)
 			records.append(doc.as_dict())
 		
-		doc=frappe.get_doc("Erpnext Site",self.site_name)
+		doc=frappe.get_doc("Federated Site",self.site_name)
 		api_secret =doc.get_password(fieldname="api_secret_pass", raise_exception=False)
 
 		url=f'{self.site_name}/api/method/federation_child.api.create_master_record'

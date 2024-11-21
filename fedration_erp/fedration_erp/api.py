@@ -28,7 +28,7 @@ def create_site(site_name,api_key,api_secret):
     """
     Create Site API
     """
-    doc=frappe.new_doc("Erpnext Site")
+    doc=frappe.new_doc("Federated Site")
     doc.site_name=site_name
     doc.api_key=api_key
     doc.api_secret_pass=api_secret
@@ -37,7 +37,7 @@ def create_site(site_name,api_key,api_secret):
 #Get Master List Api
 @frappe.whitelist()
 def get_master_list():
-    master=frappe.get_doc("Master List")
+    master=frappe.get_doc("Site Federation Config")
     master_list= [mas_doc.select_doctype for mas_doc in master.master_doctypes]
     return master_list
 
@@ -52,7 +52,7 @@ def create_master_records(doctype,data,docnames):
 
         records.append(record.as_dict())
     for site in json.loads(data):
-        doc=frappe.get_doc("Erpnext Site",site.get("site"))
+        doc=frappe.get_doc("Federated Site",site.get("site"))
         api_secret =doc.get_password(fieldname="api_secret_pass", raise_exception=False)
 
         url=f'{site.get("site")}/api/method/federation_child.api.create_master_record'
@@ -117,3 +117,44 @@ def create_document_change_request(name,ref_doctype,status,docname,data,new_data
     doc.save(ignore_permissions=True)
     frappe.db.set_value("Document Change Request",doc.name,"name",name)
     frappe.db.commit()
+
+@frappe.whitelist()
+def get_token(domain):
+    url=f'{domain}/api/method/federation_child.api.get_api_secret'
+    site=frappe.get_doc("Federated Site",domain)
+    api_secret =site.get_password(fieldname="api_secret_pass", raise_exception=False)
+    print("$$$$$$$$$$$$$$$$$$$$$$",api_secret,site.api_key)
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization':'token '+str(site.api_key)+":"+str(api_secret)
+    }
+    payload=json.dumps({
+        'user_id':frappe.session.user
+    })
+    response = requests.request("GET", url, headers=headers,data=payload)
+    if response.status_code==200:
+            headers = {
+                "Authorization": f'token {response.json().get("message")[0]}:{response.json().get("message")[1]}',
+            }
+
+            # Use any lightweight endpoint to initialize the session
+            response = requests.get(f"{domain}/api/method/federation_child.api.get_cookies", headers=headers)
+            if response.status_code == 200:
+                data = response.json()
+                print('Logged in user data:', data)
+
+                # Check if the response contains the user data or 'guest'
+                if data.get('message') == "guest":
+                    print("The user is not authenticated correctly or the token is invalid.")
+                else:
+                    # If not guest, extract session information (sid)
+                    cookies = response.cookies  # Retrieve session cookies
+                    sid = cookies.get('sid')
+                    print("Session ID (sid):", cookies.__dict__)
+                    url=f'{domain}/api/method/federation_child.api.login_with_sid?sid={sid}&domain={domain}'
+                    # response = requests.request("GET", url)
+
+                    return url
+            else:
+                print(f"Error: {response.status_code} - {response.text}")
