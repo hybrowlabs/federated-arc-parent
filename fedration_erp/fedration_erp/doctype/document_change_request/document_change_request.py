@@ -1,6 +1,7 @@
 # Copyright (c) 2024, ajay@mail.hybrowlabs.com and contributors
 # For license information, please see license.txt
 
+import datetime
 import json
 
 import frappe
@@ -29,30 +30,75 @@ class DocumentChangeRequest(Document):
 	@frappe.whitelist()
 	def approve_reject_change_request(self):
 		if self.status in ["Approved","Rejected"]:
-			site=frappe.get_doc("Federated Site",self.erpnext_site)
-			url=f'{site.site_name}/api/method/federation_child.api.approve_change_request'
-			api_secret =site.get_password(fieldname="api_secret_pass", raise_exception=False)
-			payload=json.dumps({
-				"name":self.name,
-				"status":self.status
-			},default=str)
-			headers = {
-				'Content-Type': 'application/json',
-				'Authorization':'token '+str(site.api_key)+":"+str(api_secret)
-			}
-			response = requests.request("GET", url, headers=headers,data=payload)
-			if response.status_code==200:
-				frappe.msgprint("Document Change Request Approved Sucessfully")
+			sites=frappe.db.sql("""Select distinct(sl.site_name) as site_name from `tabSync Log` as sl join `tabRecords` as r on sl.name=r.parent 
+						 where r.record='{0}' and sl.doctype_name='{1}' and status="Completed"  """.format(self.docname,self.ref_doctype),as_dict=1)
+			print("Sites",sites)
+			for erp_site in sites:
 				doc=frappe.get_doc(self.ref_doctype,self.docname)
-				for key, value in eval(self.new_data).items():
-					if key not in ["doctype", "name","modified","company","created_on","creation"]:
-						doc.set(key, value)
-				doc.save(ignore_permissions=True)
-				frappe.db.commit()
+				ignore_key=["doctype", "name","modified","company","created_on","creation","owner","modified_by","__last_sync_on","__unsaved","idx"]
+				new_data={}
+				for data in eval(self.data).get("added"):
+					new_data.update({str(data[0]):data[1]})
+					ignore_key.append(data[0])
+				for change_data in eval(self.data).get("changed"):
+					new_data.update({str(data[0]):data[1]})
+					ignore_key.append(change_data[0])
 
-			else:
-				frappe.log_error(title = 'Document Approval Failed',message=response.text)
-				frappe.throw("Document Approval Failed,you can try after some time or check error log")
+				for key, value in eval(self.new_data).items():
+					if key in doc.__dict__:
+						if key==key and key not in ignore_key:
+							if isinstance(doc.__dict__[key], list):
+								if not value:
+									self.status="Conflict"
+								else:
+									for record in value:
+										for key_z,recordb in doc.__dict__[key]:
+											print(key_z)
+											if key_z not in ["doctype", "name","modified","created_on","creation","owner","modified_by","__last_sync_on","__unsaved","parent"]:
+												if key_z=="company":
+													if record.company==recordb.company:
+														if doc.__dict__[key] != value:
+															self.status="Conflict"		
+												else:
+													if doc.__dict__[key] != value:
+														self.status="Conflict"
+
+							else:
+								if isinstance(value, datetime.date):
+									if getdate(doc.__dict__[key]) != getdate(value):
+										self.status="Conflict"
+								elif doc.__dict__[key] != value:
+									print(key,doc.__dict__[key],value)
+									self.status="Conflict"
+				site=frappe.get_doc("Federated Site",erp_site.site_name)
+				url=f'{site.site_name}/api/method/federation_child.api.approve_change_request'
+				api_secret =site.get_password(fieldname="api_secret_pass", raise_exception=False)
+				payload=json.dumps({
+					"name":self.name,
+					"status":self.status,
+					"data":new_data,
+					"ref_doctype":self.ref_doctype,
+					"docname":self.docname
+				},default=str)
+				headers = {
+					'Content-Type': 'application/json',
+					'Authorization':'token '+str(site.api_key)+":"+str(api_secret)
+				}
+				response = requests.request("GET", url, headers=headers,data=payload)
+				if response.status_code==200:
+					if self.status=="Conflict":
+						frappe.msgprint("Change Request Conflict That's Why Not Approved,Who Raised Request Will Notify,to Rise New Request")
+					if self.status=="Approved":
+						frappe.msgprint("Document Change Request Approved Sucessfully")
+						doc=frappe.get_doc(self.ref_doctype,self.docname)
+						for key, value in eval(self.new_data).items():
+							if key not in ["doctype", "name","modified","company","created_on","creation","owner","modified_by","__last_sync_on","__unsaved"]:
+								doc.set(key, value)
+						doc.save(ignore_permissions=True)
+						frappe.db.commit()
+				else:
+					frappe.log_error(title = 'Document Approval Failed',message=response.text)
+					frappe.throw("Document Approval Failed,you can try after some time or check error log")
 
 
 

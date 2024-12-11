@@ -19,6 +19,7 @@
   {
    "fieldname": "site_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Site URL",
    "unique": 1
   },
@@ -50,6 +51,7 @@
    "default": "Unconfigured",
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Status",
    "options": "Unconfigured\nLive\nDisabled"
   },
@@ -62,7 +64,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-05 14:52:06.441808",
+ "modified": "2024-11-22 17:19:44.891533",
  "modified_by": "Administrator",
  "module": "Fedration Erp",
  "name": "Federated Site",

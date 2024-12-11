@@ -19,13 +19,14 @@
   {
    "fieldname": "master_template_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Master Template Name",
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-05 14:49:27.640251",
+ "modified": "2024-11-22 17:23:06.766977",
  "modified_by": "Administrator",
  "module": "Fedration Erp",
  "name": "Master Template",

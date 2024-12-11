@@ -4,12 +4,12 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2024-11-18 16:47:33.710937",
+ "modified": "2024-11-22 17:16:13.738378",
  "modified_by": "Administrator",
  "module": "Fedration Erp",
- "name": "fedrated-child",
+ "name": "manage-child-sites",
  "owner": "Administrator",
- "page_name": "fedrated-child",
+ "page_name": "manage-child-sites",
  "roles": [
   {
    "role": "System Manager"
@@ -19,5 +19,5 @@
  "standard": "Yes",
  "style": null,
  "system_page": 0,
- "title": "Fedrated Child "
+ "title": "Manage Child Sites"
 }

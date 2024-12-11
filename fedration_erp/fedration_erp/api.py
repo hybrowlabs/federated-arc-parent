@@ -46,6 +46,13 @@ def get_master_list():
 #Create Master Doctype Record
 @frappe.whitelist()
 def create_master_records(doctype,data,docnames):
+    if(len(data)*len(docnames))>50:
+        record_creation(doctype,data,docnames)
+    else:
+        frappe.enqueue('fedration_erp.fedration_erp.api.record_creation', doctype = doctype,data = data,docnames=docnames,queue='long', timeout=5000)
+
+
+def record_creation(doctype,data,docnames):
     records=[]
     for rec in eval(docnames):
         record=frappe.get_doc(doctype,rec)
@@ -123,7 +130,6 @@ def get_token(domain):
     url=f'{domain}/api/method/federation_child.api.get_api_secret'
     site=frappe.get_doc("Federated Site",domain)
     api_secret =site.get_password(fieldname="api_secret_pass", raise_exception=False)
-    print("$$$$$$$$$$$$$$$$$$$$$$",api_secret,site.api_key)
 
     headers = {
         'Content-Type': 'application/json',
@@ -142,18 +148,14 @@ def get_token(domain):
             response = requests.get(f"{domain}/api/method/federation_child.api.get_cookies", headers=headers)
             if response.status_code == 200:
                 data = response.json()
-                print('Logged in user data:', data)
-
                 # Check if the response contains the user data or 'guest'
                 if data.get('message') == "guest":
-                    print("The user is not authenticated correctly or the token is invalid.")
+                    pass
                 else:
                     # If not guest, extract session information (sid)
                     cookies = response.cookies  # Retrieve session cookies
                     sid = cookies.get('sid')
-                    print("Session ID (sid):", cookies.__dict__)
                     url=f'{domain}/api/method/federation_child.api.login_with_sid?sid={sid}&domain={domain}'
-                    # response = requests.request("GET", url)
 
                     return url
             else:

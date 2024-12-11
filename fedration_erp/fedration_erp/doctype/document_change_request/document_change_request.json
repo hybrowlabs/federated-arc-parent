@@ -58,7 +58,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Pending\nApproved\nRejected"
+   "options": "Pending\nApproved\nRejected\nConflict"
   },
   {
    "fieldname": "new_data",
@@ -69,14 +69,14 @@
   {
    "fieldname": "erpnext_site",
    "fieldtype": "Link",
-   "label": "Erpnext Site",
+   "label": "ERPNext Site",
    "options": "Federated Site"
   }
  ],
  "icon": "fa fa-copy",
  "in_create": 1,
  "links": [],
- "modified": "2024-11-15 18:32:40.282165",
+ "modified": "2024-11-24 23:56:21.002392",
  "modified_by": "Administrator",
  "module": "Fedration Erp",
  "name": "Document Change Request",

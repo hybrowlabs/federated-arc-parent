@@ -27,8 +27,8 @@ const addOCRMenuItem = async () => {
                       {
                         fieldname: "site",
                         fieldtype: "Link",
-                        label: __("Erpnext Site"),
-                        options: "Erpnext Site",
+                        label: __("ERPNext Site"),
+                        options: "Federated Site",
                         reqd: 1,
                         in_list_view: 1,
                         // get_query: () => {
@@ -64,21 +64,7 @@ const addOCRMenuItem = async () => {
                         callback: (r) => {
                         },
                       });
-                    }else{
-                    // create_master_record
-                    frappe.call({
-                      method: "fedration_erp.fedration_erp.api.create_master_records",
-                      args: {
-                        doctype:frappe.get_route()[1],
-                        data: data.items,
-                        docnames:docnames
-                      },
-                      freeze: true,
-                      freeze_message: __("Creating Records On Sites..."),
-                      callback: (r) => {
-                      },
-                    });
-                  }
+                    }
                     dialog.hide();
                   } else {
                     frappe.msgprint(__("Please select Sites"));
